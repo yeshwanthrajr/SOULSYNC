@@ -3,217 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindSentinel | Enterprise Focus</title>
+    <title>MindSentinel | Burnout Dashboard</title>
     <link rel="manifest" href="manifest.json">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- B2B AUTHENTICATION OVERLAY -->
-    <div id="auth-overlay" class="full-overlay hidden">
-        <div class="auth-box">
-            <div style="display:flex; justify-content:center; margin-bottom:20px;">
-                <div class="logo-box"><i class="ph-bold ph-shield-check"></i></div>
+    <!-- TOP NAVIGATION -->
+    <header class="top-nav">
+        <div class="brand">
+            <div class="logo-icon"><i class="ph-fill ph-brain"></i></div>
+            <div class="brand-text">
+                <h1>MindSentinel</h1>
+                <p><i class="ph-bold ph-trend-up"></i> Protect Your Mind. Power Your Focus</p>
             </div>
-            <h2>MindSentinel Access</h2>
-            <p style="text-align:center; color:var(--text-muted); margin-bottom: 25px; font-size: 0.9rem;">Enterprise Cognitive Analytics</p>
-            <div style="margin-bottom:20px;">
-                <div class="input-header"><label>Email</label></div>
-                <input type="text" placeholder="name@company.com">
-            </div>
-            <div style="margin-bottom:30px;">
-                <div class="input-header"><label>Password</label></div>
-                <input type="password" placeholder="••••••••••••••••">
-            </div>
-            <button class="btn-primary" id="login-btn" onclick="login()" style="width:100%;">Continue with Email</button>
-            <div class="divider"><span>or</span></div>
-            <button class="btn-secondary" style="width:100%;"><i class="ph-bold ph-google-logo"></i> Continue with SSO</button>
         </div>
-    </div>
+        <div class="user-block">
+            <div class="user-info">
+                <span>Welcome back,</span>
+                <strong>kiruba</strong>
+            </div>
+            <button class="logout-btn"><i class="ph ph-sign-out"></i></button>
+        </div>
+    </header>
 
-    <!-- MAIN ENTERPRISE APP SHELL -->
-    <div class="app-container" id="app-shell">
+    <!-- MAIN GRID CONTAINER -->
+    <main class="dashboard-grid">
         
-        <!-- SIDEBAR -->
-        <nav class="sidebar">
-            <div class="brand">
-                <i class="ph-bold ph-shield-check"></i>
-                <span>MindSentinel</span>
-                <span class="enterprise-badge">Pro</span>
+        <!-- COLUMN 1: DAILY INPUT -->
+        <section class="col-panel">
+            <h2 class="panel-title"><i class="ph-bold ph-chart-line-up"></i> Daily Input</h2>
+            
+            <div class="accordion-card">
+                <div class="accordion-header bg-cyan">
+                    <span><i class="ph-fill ph-heart-beat"></i> Physical Health</span>
+                    <i class="ph ph-caret-down"></i>
+                </div>
+                <div class="accordion-body">
+                    <p class="subtitle fade">Burnout first appears physically before mentally.</p>
+                    
+                    <div class="slider-group">
+                        <label><i class="ph-fill ph-moon"></i> Sleep Duration (7 hrs)</label>
+                        <input type="range" min="0" max="12" value="7" class="neon-slider">
+                    </div>
+                    
+                    <div class="slider-group">
+                        <label><i class="ph-fill ph-bed"></i> Sleep Quality (8/10)</label>
+                        <input type="range" min="0" max="10" value="8" class="neon-slider">
+                    </div>
+
+                    <div class="slider-group">
+                        <label><i class="ph-fill ph-lightning"></i> Energy Level (8/10)</label>
+                        <input type="range" min="0" max="10" value="8" class="neon-slider">
+                    </div>
+
+                    <div class="dropdown-group">
+                        <label>Eating Habits</label>
+                        <select class="custom-select">
+                            <option>Regular</option>
+                            <option>Irregular</option>
+                            <option>Skipping Meals</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            
-            <div class="sidebar-category">Operations</div>
-            <ul class="nav-links">
-                <li class="active" onclick="switchView('dashboard', this)"><i class="ph ph-squares-four"></i> Dashboard</li>
-                <li onclick="switchView('focus', this)"><i class="ph ph-timer"></i> Focus Protocol <span class="hot-badge">NEW</span></li>
-                <li onclick="switchView('input', this)"><i class="ph ph-pencil-simple"></i> Daily Report</li>
-            </ul>
 
-            <div class="sidebar-category" style="margin-top: 30px;">Intelligence</div>
-            <ul class="nav-links">
-                <li onclick="switchView('insights', this)"><i class="ph ph-chart-line-up"></i> Analytics</li>
-                <li onclick="switchView('simulation', this)"><i class="ph ph-flask"></i> Simulator</li>
-                <li onclick="switchView('plan', this)"><i class="ph ph-check-square"></i> Action Plan</li>
-            </ul>
-
-            <div class="sidebar-category" style="margin-top: 30px;">Organization</div>
-            <ul class="nav-links">
-                <li onclick="switchView('team', this)"><i class="ph ph-users"></i> Team Overview</li>
-            </ul>
-            
-            <div class="user-profile-bot">
-                <div class="avatar">R</div>
-                <div style="display:flex; flex-direction:column;">
-                    <span style="font-size:0.85rem; font-weight:500; color:var(--text-primary);">Ryesh</span>
-                    <span style="font-size:0.75rem; color:var(--text-muted);">SaaS Administrator</span>
+            <div class="accordion-card">
+                <div class="accordion-header bg-pink">
+                    <span><i class="ph-fill ph-brain"></i> Mental & Emotional</span>
+                    <i class="ph ph-caret-down"></i>
                 </div>
             </div>
-        </nav>
+        </section>
 
-        <main class="content">
+        <!-- COLUMN 2: BURNOUT ANALYSIS -->
+        <section class="col-panel center-panel">
+            <h2 class="panel-title center-title"><i class="ph-bold ph-trend-up"></i> Burnout Analysis</h2>
             
-            <!-- 1. DASHBOARD -->
-            <section id="view-dashboard" class="view active-view">
-                <header>
-                    <h2>Dashboard Overview</h2>
-                    <p>Real-time enterprise overview of cognitive standing.</p>
-                </header>
-                
-                <div class="bento-grid">
-                    <div class="card gauge-wrapper" style="position:relative; overflow:hidden;">
-                        <div class="card-glow-top"></div>
-                        <h3 style="align-self:flex-start;">Fatigue Index</h3>
-                        <p class="text-sage" style="align-self:flex-start; margin-bottom:20px; font-weight:500; font-size:0.9rem;" id="dash-risk">Status: Optimal</p>
-                        
-                        <div class="gauge" id="gauge-ui"><span id="dash-score">0</span></div>
-                        
-                        <button class="btn-primary" onclick="document.querySelector('.nav-links li:nth-child(3)').click();" style="margin-top:10px; width:100%;">Submit Daily Report</button>
-                    </div>
-                    
-                    <div class="card" style="display:flex; flex-direction:column; justify-content:flex-start;">
-                        <h3 style="margin-bottom:20px;">Live Intelligence & History</h3>
-                        
-                        <!-- 🚀 AWESOME FEATURE: 30-Day Heatmap (GitHub Style) -->
-                        <div style="margin-bottom:20px;">
-                            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase;">30-Day Cognitive Heatmap</p>
-                            <div class="heatmap-grid">
-                                <!-- Mock 30 days of data -->
-                                <div class="heat-box heat-success"></div><div class="heat-box heat-success"></div>
-                                <div class="heat-box heat-success"></div><div class="heat-box heat-warn"></div>
-                                <div class="heat-box heat-alert"></div><div class="heat-box heat-success"></div>
-                                <div class="heat-box heat-success"></div><div class="heat-box heat-empty"></div>
-                                <div class="heat-box heat-success"></div><div class="heat-box heat-success"></div>
-                                <div class="heat-box heat-warn"></div><div class="heat-box heat-empty"></div>
-                                <div class="heat-box heat-success"></div><div class="heat-box heat-success"></div>
-                                <div class="heat-box heat-success"></div><div class="heat-box heat-alert"></div>
-                                <div class="heat-box heat-alert"></div><div class="heat-box heat-warn"></div>
-                                <div class="heat-box heat-success"></div><div class="heat-box heat-success"></div>
-                                <div class="heat-box heat-success"></div><div class="heat-box heat-success"></div>
-                                <div class="heat-box heat-success"></div><div class="heat-box heat-empty"></div>
-                                <div class="heat-box heat-success"></div><div class="heat-box heat-warn"></div>
-                                <div class="heat-box heat-success"></div><div class="heat-box heat-success"></div>
-                            </div>
-                            <div style="display:flex; gap:10px; font-size:0.7rem; color:#666; margin-top:5px; align-items:center;">
-                                Optimal <div class="heat-box heat-success" style="width:8px;height:8px;"></div>
-                                High Load <div class="heat-box heat-alert" style="width:8px;height:8px;"></div>
-                            </div>
-                        </div>
+            <!-- SVG GAUGE CHART -->
+            <div class="gauge-container">
+                <svg viewBox="0 0 100 50" class="gauge-svg">
+                    <path class="gauge-bg" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke-width="8" stroke-linecap="round"/>
+                    <path class="gauge-fill" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke-width="8" stroke-linecap="round" stroke-dasharray="125" stroke-dashoffset="87"/>
+                </svg>
+                <div class="gauge-text">
+                    <span class="percentage">30%</span>
+                    <span class="label">BURNOUT LEVEL</span>
+                </div>
+            </div>
 
-                        <div class="info-box">
-                            <h4 style="display:flex; align-items:center; gap:8px; margin-bottom:10px;"><i class="ph-bold ph-sparkle"></i> System Recommendation</h4>
-                            <p>Data indicates sustained output quality. Utilizing the <strong>Focus Protocol</strong> tool for 25-minute sprints will heavily protect current flow state.</p>
-                        </div>
+            <!-- PILL BADGE -->
+            <div class="status-pill safe">
+                <i class="ph-bold ph-check-circle"></i> LOW BURNOUT
+            </div>
+
+            <!-- ROUTINE BENTO -->
+            <div class="routine-section">
+                <h3 class="section-subtitle">RECOMMENDED ROUTINE</h3>
+                <div class="routine-grid">
+                    <div class="routine-card">
+                        <span class="rc-title"><i class="ph-fill ph-moon"></i> Sleep</span>
+                        <span class="rc-val">7-8 hours</span>
+                    </div>
+                    <div class="routine-card">
+                        <span class="rc-title" style="color: #CB6CE6;"><i class="ph-fill ph-briefcase"></i> Work</span>
+                        <span class="rc-val">6-8 hours</span>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="three-grid">
-                    <div class="summary-card"><span style="color:var(--text-muted); font-size:0.85rem; text-transform:uppercase;">Avg Sleep</span><span class="val">7.5h</span></div>
-                    <div class="summary-card"><span style="color:var(--text-muted); font-size:0.85rem; text-transform:uppercase;">Mood Base</span><span class="val text-sage">Stable</span></div>
-                    <div class="summary-card"><span style="color:var(--text-muted); font-size:0.85rem; text-transform:uppercase;">Op Load</span><span class="val text-alert">High</span></div>
+        <!-- COLUMN 3: AI SUGGESTIONS -->
+        <section class="col-panel">
+            <h2 class="panel-title"><i class="ph-bold ph-sparkle"></i> AI Suggestions</h2>
+            
+            <h3 class="section-subtitle mt-gap">RECOMMENDATIONS</h3>
+            <div class="recommendations-list">
+                <div class="rec-card">
+                    <div class="rec-icon text-green"><i class="ph-bold ph-trend-up"></i></div>
+                    <div class="rec-text">Keep up the excellent routine!</div>
                 </div>
-            </section>
-
-            <!-- 2. FOCUS PROTOCOL (NEW PRODUCTIVITY FEATURE) -->
-            <section id="view-focus" class="view">
-                <header>
-                    <h2>Focus Protocol</h2>
-                    <p>Deep work integration limits cognitive drain while maximizing output.</p>
-                </header>
-                <div class="card" style="text-align:center; padding: 60px 20px;">
-                    <h3 style="color:var(--text-muted); margin-bottom: 20px; text-transform:uppercase; letter-spacing:2px; font-size:0.9rem;">Deep Work Sprint</h3>
-                    
-                    <div class="timer-display" id="timer-display">25:00</div>
-                    
-                    <div style="display:flex; justify-content:center; gap:15px; margin-top:40px;">
-                        <button class="btn-primary" id="btn-start" onclick="toggleTimer()" style="width:160px; font-size:1rem; padding:12px;">Start Focus</button>
-                        <button class="btn-secondary" onclick="resetTimer()" style="width:160px; font-size:1rem;">Reset Neural Link</button>
-                    </div>
-
-                    <div style="margin-top:40px; display:inline-block; text-align:left; background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid var(--border);">
-                        <h4 style="margin-bottom:10px; color:var(--text-muted);"><i class="ph-bold ph-info"></i> How it works:</h4>
-                        <p style="font-size:0.9rem; color:#888;">1. Close all tabs unrelated to the immediate task.<br>2. Work intensely for 25 uninterrupted minutes.<br>3. When the alarm sounds, take a 5-minute strict screen absence.</p>
-                    </div>
+                <div class="rec-card">
+                    <div class="rec-icon text-blue"><i class="ph-bold ph-heart"></i></div>
+                    <div class="rec-text">Your mind is well-protected</div>
                 </div>
-            </section>
-
-            <!-- 3. DAILY INPUT -->
-            <section id="view-input" class="view">
-                <header>
-                    <h2>Daily Report</h2>
-                    <p>Submit your structured metrics for API ingestion.</p>
-                </header>
-                <div class="card" style="max-width:600px;">
-                    <div style="margin-bottom:25px;">
-                        <div class="input-header"><label>Sleep Duration</label><span class="input-val-badge">H</span></div>
-                        <input type="number" id="daily-sleep" placeholder="Hours" min="0" max="24" step="0.5">
-                    </div>
-                    <div style="margin-bottom:25px;">
-                        <div class="input-header"><label>Operational Load</label><span class="input-val-badge" id="work-val-disp">5 / 10</span></div>
-                        <input type="range" id="daily-work" min="1" max="10" value="5">
-                        <div style="display:flex; justify-content:space-between; color:var(--text-muted); font-size:0.8rem; margin-top:10px;"><span>Low</span><span>Max</span></div>
-                    </div>
-                    <div style="margin-bottom:35px;">
-                        <div class="input-header"><label>Stress Index</label><span class="input-val-badge" id="stress-val-disp">4 / 10</span></div>
-                        <input type="range" id="daily-stress" min="1" max="10" value="4">
-                        <div style="display:flex; justify-content:space-between; color:var(--text-muted); font-size:0.8rem; margin-top:10px;"><span>Nominal</span><span>Critical</span></div>
-                    </div>
-                    <div style="border-top: 1px solid var(--border); padding-top:20px; display:flex; justify-content:flex-end;">
-                        <button class="btn-primary" style="width: auto;" id="save-btn" onclick="submitData()">Submit Report</button>
-                    </div>
-                    <p id="save-msg" style="text-align:right; margin-top:10px; font-size:0.85rem; color:var(--text-muted); opacity:0;"></p>
+                <div class="rec-card">
+                    <div class="rec-icon text-yellow"><i class="ph-bold ph-lightning"></i></div>
+                    <div class="rec-text">Stay consistent with habits</div>
                 </div>
-            </section>
-
-            <!-- 4. SIMULATION -->
-            <section id="view-simulation" class="view">
-                <header><h2>Simulator</h2><p>Execute hypothetical adjustments to forecast index outcomes.</p></header>
-                <div class="bento-grid">
-                    <div class="card">
-                        <div style="margin-bottom:30px;">
-                            <div class="input-header"><label>Target Sleep</label><span class="input-val-badge"><span id="sim-slp-val">7</span>H</span></div>
-                            <input type="range" id="sim-sleep" min="4" max="10" value="7" step="0.5" oninput="runSim()">
-                        </div>
-                        <div style="margin-bottom:20px;">
-                            <div class="input-header"><label>Projected Load</label><span class="input-val-badge"><span id="sim-wrk-val">5</span>/10</span></div>
-                            <input type="range" id="sim-work" min="1" max="10" value="5" oninput="runSim()">
-                        </div>
-                    </div>
-                    <div class="card gauge-wrapper" style="justify-content:center;">
-                        <h3 style="margin-bottom:20px;">Forecasted Impact</h3>
-                        <div class="gauge" id="sim-gauge" style="border-color:var(--secondary); transform:scale(0.9);"><span id="sim-score">25</span></div>
-                        <p id="sim-ai-msg" style="margin-top:20px; color:var(--text-muted); font-size:0.9rem; text-align:center;">Nominal configuration. Proceed safely.</p>
-                    </div>
+                <div class="rec-card">
+                    <div class="rec-icon text-purple"><i class="ph-bold ph-percent"></i></div>
+                    <div class="rec-text">You're in peak focus mode</div>
                 </div>
-            </section>
+            </div>
 
-            <!-- Placeholder Sub-Views -->
-            <section id="view-insights" class="view"><header><h2>Analytics</h2><p>Pattern recognition datasets.</p></header><div class="card"><p style="color:#777">Insufficient weekly data to generate report 4B.</p></div></section>
-            <section id="view-plan" class="view"><header><h2>Action Plan</h2><p>System-generated operational guidelines.</p></header><div class="card"><div class="checklist-item"><input type="checkbox"><span>Execute hard cut-off at 18:00 hrs.</span></div><div class="checklist-item"><input type="checkbox"><span>Mandatory 8-hour sleep protocol tonight.</span></div></div></section>
-            <section id="view-team" class="view"><header><h2>Team Overview</h2><p>RESTRICTED: Administrator access only.</p></header></section>
-
-        </main>
-    </div>
+            <button class="ai-button">
+                <i class="ph-fill ph-robot text-green" style="font-size:1.5rem"></i>
+                <span class="fw-btn">AI Assistant</span>
+                <i class="ph-bold ph-sparkle text-green"></i>
+            </button>
+        </section>
+        
+    </main>
 
     <script src="script.js"></script>
 </body>

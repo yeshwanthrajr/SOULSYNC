@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: mindsentinel-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: PORT
+        value: 3000

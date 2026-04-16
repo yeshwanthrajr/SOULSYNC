@@ -1,0 +1,28 @@
+const CACHE_NAME = 'guardian-v1';
+const ASSETS = [
+    '/',
+    '/index.html',
+    '/style.css',
+    '/script.js',
+    '/manifest.json'
+];
+
+self.addEventListener('install', (event) => {
+    event.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => {
+            return cache.addAll(ASSETS);
+        })
+    );
+});
+
+self.addEventListener('fetch', (event) => {
+    // Intercept network requests and serve from cache if available (Offline Support)
+    event.respondWith(
+        caches.match(event.request).then((response) => {
+            return response || fetch(event.request);
+        }).catch(() => {
+            // Fallback gracefully 
+            return caches.match('/index.html'); 
+        })
+    );
+});

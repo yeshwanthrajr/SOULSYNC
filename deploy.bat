@@ -14,20 +14,13 @@ echo [2/3] Preparing Branch...
 git branch -M main
 
 echo.
-echo [3/3] Please enter your GitHub Repository URL (e.g. https://github.com/Username/repo.git) 
-echo Or press Enter to skip if it's already connected:
-set /p gitURL="Repository URL: "
+echo [3/3] Forcing connection to https://github.com/yeshwanthrajr/SOULSYNC.git ...
+git remote remove origin
+git remote add origin https://github.com/yeshwanthrajr/SOULSYNC.git
 
-if "%gitURL%"=="" (
-    echo.
-    echo Pushing changes to the already connected repository...
-    git push -u origin main
-) else (
-    echo.
-    echo Connecting remote %gitURL%...
-    git remote add origin %gitURL%
-    git push -u origin main
-)
+echo.
+echo Pushing changes...
+git push -u origin main
 
 echo.
 echo =======================================================

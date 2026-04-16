@@ -386,3 +386,40 @@ body {
     font-weight: 600;
     color: var(--text-main);
 }
+
+/* =========================================
+   MOBILE RESPONSIVE VIEWS
+========================================= */
+
+@media (max-width: 1100px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr 1fr; /* Switch to 2 columns on tablets */
+    }
+    .col-panel:last-child {
+        grid-column: span 2; /* Make the 3rd section span across the bottom */
+    }
+}
+
+@media (max-width: 768px) {
+    .top-nav {
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px;
+    }
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Single column on phones */
+        padding: 0 20px 30px 20px;
+    }
+    .col-panel:last-child {
+        grid-column: span 1;
+    }
+    .col-panel {
+        padding: 20px;
+    }
+    .gauge-container {
+        margin: 20px 0 10px 0;
+    }
+    .status-pill {
+        margin-bottom: 30px;
+    }
+}

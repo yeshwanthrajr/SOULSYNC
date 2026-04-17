@@ -1,12 +1,12 @@
 services:
   - type: web
-    name: mindsentinel-backend
+    name: mindsentinel-fullstack
     env: node
-    rootDir: backend
-    buildCommand: npm install
-    startCommand: npm start
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
     envVars:
       - key: MONGODB_URI
         sync: false
       - key: PORT
-        value: 3000
+        value: 10000

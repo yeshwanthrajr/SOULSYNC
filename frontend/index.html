@@ -75,6 +75,34 @@
                     <span><i class="ph-fill ph-brain"></i> Mental & Emotional</span>
                     <i class="ph ph-caret-down"></i>
                 </div>
+                <div class="accordion-body" style="display: none;">
+                    <p class="subtitle fade">Captures early signs of cognitive strain.</p>
+                    
+                    <div class="slider-group">
+                        <label><i class="ph-fill ph-smiley"></i> General Mood (8/10)</label>
+                        <input type="range" min="0" max="10" value="8" class="neon-slider" id="mood-slider">
+                    </div>
+                    
+                    <div class="slider-group">
+                        <label><i class="ph-fill ph-pawn"></i> Mental Clarity (7/10)</label>
+                        <input type="range" min="0" max="10" value="7" class="neon-slider" id="clarity-slider">
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-card">
+                <div class="accordion-header bg-purple">
+                    <span><i class="ph-fill ph-briefcase"></i> Workload & Focus</span>
+                    <i class="ph ph-caret-down"></i>
+                </div>
+                <div class="accordion-body" style="display: none;">
+                    <p class="subtitle fade">Tracks intensity of your professional day.</p>
+                    
+                    <div class="slider-group">
+                        <label><i class="ph-fill ph-clock"></i> Work Hours (8 hrs)</label>
+                        <input type="range" min="0" max="16" value="8" class="neon-slider" id="work-slider">
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -105,11 +133,11 @@
                 <div class="routine-grid">
                     <div class="routine-card">
                         <span class="rc-title"><i class="ph-fill ph-moon"></i> Sleep</span>
-                        <span class="rc-val">7-8 hours</span>
+                        <span class="rc-val" id="rec-sleep">7-8 hours</span>
                     </div>
                     <div class="routine-card">
                         <span class="rc-title" style="color: #CB6CE6;"><i class="ph-fill ph-briefcase"></i> Work</span>
-                        <span class="rc-val">6-8 hours</span>
+                        <span class="rc-val" id="rec-work">6-8 hours</span>
                     </div>
                 </div>
             </div>

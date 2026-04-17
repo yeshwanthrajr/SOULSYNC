@@ -161,6 +161,7 @@ body {
 }
 .bg-cyan { background: var(--accent-cyan); color: #FFF; }
 .bg-pink { background: var(--accent-pink); color: #FFF; }
+.bg-purple { background: var(--accent-purple); color: #FFF; }
 
 .accordion-body {
     padding: 24px 20px;

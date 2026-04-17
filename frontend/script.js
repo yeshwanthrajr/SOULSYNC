@@ -1,10 +1,26 @@
-document.addEventListener("DOMContentLoaded", () => {
-    fetchLatestData();
+    // Handle Accordion Toggling
+    const headers = document.querySelectorAll('.accordion-header');
+    headers.forEach(header => {
+        header.addEventListener('click', () => {
+            const body = header.nextElementSibling;
+            const icon = header.querySelector('.ph-caret-down');
+            
+            // Toggle visibility
+            const isHidden = body.style.display === 'none';
+            body.style.display = isHidden ? 'block' : 'none';
+            
+            // Rotate icon
+            if (icon) {
+                icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+                icon.style.transition = '0.3s';
+            }
+        });
+    });
 
     // Basic interaction for UI elements
     const sliders = document.querySelectorAll('.neon-slider');
     
-    sliders.forEach((slider, index) => {
+    sliders.forEach((slider) => {
         slider.addEventListener('change', (e) => {
             // When user releases the slider, send data to database
             submitDataToDatabase();
@@ -12,28 +28,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
         slider.addEventListener('input', (e) => {
             // Update labels dynamically while dragging
-            let label = e.target.previousElementSibling;
+            let labelElement = e.target.previousElementSibling;
             let val = e.target.value;
-            if(label.innerText.includes('Sleep Duration')) {
-                label.innerHTML = `<i class="ph-fill ph-moon"></i> Sleep Duration (${val} hrs)`;
-            } else if(label.innerText.includes('Sleep Quality')) {
-                label.innerHTML = `<i class="ph-fill ph-bed"></i> Sleep Quality (${val}/10)`;
-            } else if(label.innerText.includes('Energy Level')) {
-                label.innerHTML = `<i class="ph-fill ph-lightning"></i> Energy Level (${val}/10)`;
+            let labelText = labelElement.innerText;
+
+            if(labelText.includes('Sleep Duration')) {
+                labelElement.innerHTML = `<i class="ph-fill ph-moon"></i> Sleep Duration (${val} hrs)`;
+            } else if(labelText.includes('Sleep Quality')) {
+                labelElement.innerHTML = `<i class="ph-fill ph-bed"></i> Sleep Quality (${val}/10)`;
+            } else if(labelText.includes('Energy Level')) {
+                labelElement.innerHTML = `<i class="ph-fill ph-lightning"></i> Energy Level (${val}/10)`;
+            } else if(labelText.includes('General Mood')) {
+                labelElement.innerHTML = `<i class="ph-fill ph-smiley"></i> General Mood (${val}/10)`;
+            } else if(labelText.includes('Mental Clarity')) {
+                labelElement.innerHTML = `<i class="ph-fill ph-pawn"></i> Mental Clarity (${val}/10)`;
+            } else if(labelText.includes('Work Hours')) {
+                labelElement.innerHTML = `<i class="ph-fill ph-clock"></i> Work Hours (${val} hrs)`;
             }
             
-            // Give instant visual feedback before DB verifies
             calculateDemoBurnout();
         });
     });
+
+    // Handle Dropdown changes
+    const eatingSelect = document.querySelector('.custom-select');
+    if (eatingSelect) {
+        eatingSelect.addEventListener('change', () => submitDataToDatabase());
+    }
+
+    // AI Assistant Button Click
+    const aiBtn = document.querySelector('.ai-button');
+    if (aiBtn) {
+        aiBtn.addEventListener('click', () => {
+            alert("Cognitive AI Assistant: Analyzing your telemetry data... You seem to be doing well! Try to maintain a consistent sleep schedule this week.");
+        });
+    }
 });
 
 function calculateDemoBurnout() {
-    const sliders = document.querySelectorAll('.neon-slider');
-    let sleepDur = parseFloat(sliders[0].value);
-    let sleepQual = parseFloat(sliders[1].value);
-    let energy = parseFloat(sliders[2].value);
-    let burnoutScore = 100 - ((sleepDur/12)*40 + (sleepQual/10)*30 + (energy/10)*30);
+    const sleepDur = parseFloat(document.querySelectorAll('.neon-slider')[0].value);
+    const sleepQual = parseFloat(document.querySelectorAll('.neon-slider')[1].value);
+    const energy = parseFloat(document.querySelectorAll('.neon-slider')[2].value);
+    const mood = parseFloat(document.querySelector('#mood-slider')?.value || 8);
+    const work = parseFloat(document.querySelector('#work-slider')?.value || 8);
+    
+    // Improved demo formula
+    let burnoutScore = 100 - ((sleepDur/12)*25 + (sleepQual/10)*20 + (energy/10)*20 + (mood/10)*20 + (1 - (work/16))*15);
     updateBurnoutUI(Math.round(burnoutScore));
 }
 
@@ -58,6 +98,7 @@ function updateBurnoutUI(score) {
         statusPill.innerHTML = '<i class="ph-bold ph-warning-circle"></i> CRITICAL BURNOUT';
         gaugeFill.style.stroke = '#E5484D';
         gaugeFill.style.filter = 'drop-shadow(0px 0px 8px rgba(229, 72, 77, 0.6))';
+        updateAISuggestions('high');
     } else if (score > 40) {
         statusPill.className = 'status-pill';
         statusPill.style.border = '1px solid rgba(245, 166, 35, 0.4)';
@@ -66,6 +107,7 @@ function updateBurnoutUI(score) {
         statusPill.innerHTML = '<i class="ph-bold ph-warning"></i> MEDIUM BURNOUT';
         gaugeFill.style.stroke = '#F5A623';
         gaugeFill.style.filter = 'drop-shadow(0px 0px 8px rgba(245, 166, 35, 0.6))';
+        updateAISuggestions('medium');
     } else {
         statusPill.className = 'status-pill safe';
         statusPill.style.border = '1px solid rgba(46, 209, 95, 0.4)';
@@ -74,7 +116,41 @@ function updateBurnoutUI(score) {
         statusPill.innerHTML = '<i class="ph-bold ph-check-circle"></i> LOW BURNOUT';
         gaugeFill.style.stroke = 'var(--brand-green-light)';
         gaugeFill.style.filter = 'drop-shadow(0px 0px 8px rgba(180, 244, 88, 0.6))';
+        updateAISuggestions('low');
     }
+}
+
+function updateAISuggestions(risk) {
+    const list = document.querySelector('.recommendations-list');
+    if(!list) return;
+
+    let recs = [];
+    if(risk === 'high') {
+        recs = [
+            { text: "Take an emergency 30min rest now", icon: "ph-warning-circle", color: "text-red" },
+            { text: "Disconnect from all digital screens", icon: "ph-monitor-off", color: "text-blue" },
+            { text: "Hydrate and practice box breathing", icon: "ph-wind", color: "text-purple" }
+        ];
+    } else if(risk === 'medium') {
+        recs = [
+            { text: "Schedule a 15-minute walk", icon: "ph-sketch-logo", color: "text-yellow" },
+            { text: "Prioritize pending deep-work tasks", icon: "ph-list-checks", color: "text-blue" },
+            { text: "Aim for 8 hours of sleep tonight", icon: "ph-moon", color: "text-purple" }
+        ];
+    } else {
+        recs = [
+            { text: "Keep up the excellent routine!", icon: "ph-trend-up", color: "text-green" },
+            { text: "Your mind is well-protected", icon: "ph-heart", color: "text-blue" },
+            { text: "Stay consistent with habits", icon: "ph-lightning", color: "text-yellow" }
+        ];
+    }
+
+    list.innerHTML = recs.map(r => `
+        <div class="rec-card">
+            <div class="rec-icon ${r.color}"><i class="ph-bold ${r.icon}"></i></div>
+            <div class="rec-text">${r.text}</div>
+        </div>
+    `).join('');
 }
 
 // ==========================================
@@ -84,15 +160,17 @@ const getAPIURL = () => {
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') {
         return 'http://localhost:3000';
     }
-    // Update this to your exact render URL once deployed!
-    return 'https://soulsync-wzb6.onrender.com';
+    // This will dynamically use the base URL of your deployed site!
+    return window.location.origin;
 };
 
 function submitDataToDatabase() {
-    const sliders = document.querySelectorAll('.neon-slider');
-    let slp = parseFloat(sliders[0].value) || 7;
-    let wrk = 8; // default work value
-    let str = 10 - (parseFloat(sliders[2].value) || 8); // Reverse energy scale for stress
+    const slp = parseFloat(document.querySelectorAll('.neon-slider')[0].value) || 7;
+    const mood = parseFloat(document.querySelector('#mood-slider')?.value || 8);
+    const clarity = parseFloat(document.querySelector('#clarity-slider')?.value || 7);
+    const wrk = parseFloat(document.querySelector('#work-slider')?.value || 8);
+    const eating = document.querySelector('.custom-select')?.value || 'Regular';
+    const str = 10 - (parseFloat(document.querySelectorAll('.neon-slider')[2].value) || 8); 
 
     // Show syncing status
     const statusPill = document.querySelector('.status-pill');
@@ -102,7 +180,14 @@ function submitDataToDatabase() {
     fetch(`${getAPIURL()}/api/burnout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sleep: slp, work: wrk, stress: str })
+        body: JSON.stringify({ 
+            sleep: slp, 
+            work: wrk, 
+            mood: mood, 
+            stress: str, 
+            clarity: clarity, 
+            eating: eating 
+        })
     })
     .then(res => res.json())
     .then(data => {

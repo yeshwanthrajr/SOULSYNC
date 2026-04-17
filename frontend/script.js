@@ -6,14 +6,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const body = header.nextElementSibling;
             const icon = header.querySelector('.ph-caret-down');
             
-            // Toggle visibility
-            const isHidden = body.style.display === 'none';
-            body.style.display = isHidden ? 'block' : 'none';
+            // Toggle visibility using class or computed style
+            const isVisible = body.classList.contains('active') || window.getComputedStyle(body).display !== 'none';
             
-            // Rotate icon
-            if (icon) {
-                icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
-                icon.style.transition = '0.3s';
+            if (isVisible) {
+                body.style.display = 'none';
+                body.classList.remove('active');
+                if (icon) icon.style.transform = 'rotate(0deg)';
+            } else {
+                body.style.display = 'block';
+                body.classList.add('active');
+                if (icon) icon.style.transform = 'rotate(180deg)';
             }
         });
     });
@@ -96,15 +99,24 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function calculateDemoBurnout() {
-    const sleepDur = parseFloat(document.getElementById('sleep-dur-slider')?.value || 7);
-    const sleepQual = parseFloat(document.getElementById('sleep-qual-slider')?.value || 8);
-    const energy = parseFloat(document.getElementById('energy-slider')?.value || 8);
-    const mood = parseFloat(document.getElementById('mood-slider')?.value || 8);
-    const work = parseFloat(document.getElementById('work-slider')?.value || 8);
+    const s = parseFloat(document.getElementById('sleep-dur-slider')?.value || 7);
+    const q = parseFloat(document.getElementById('sleep-qual-slider')?.value || 8);
+    const e = parseFloat(document.getElementById('energy-slider')?.value || 8);
+    const m = parseFloat(document.getElementById('mood-slider')?.value || 8);
+    const c = parseFloat(document.getElementById('clarity-slider')?.value || 7);
+    const w = parseFloat(document.getElementById('work-slider')?.value || 8);
+    const eating = document.querySelector('.custom-select')?.value || 'Regular';
     
-    // Improved demo formula
-    let burnoutScore = 100 - ((sleepDur/12)*25 + (sleepQual/10)*20 + (energy/10)*20 + (mood/10)*20 + (1 - (work/16))*15);
-    updateBurnoutUI(Math.round(burnoutScore));
+    // Sycned with Backend Algorithm
+    let sleepFactor = (s / 12) * 20 + (q / 10) * 15;
+    let mentalFactor = (m / 10) * 15 + (c / 10) * 15 + (e / 10) * 15;
+    let workPenalty = Math.max(0, (w - 8) * 10);
+    let dietPenalty = (eating === 'Skipping Meals' ? 15 : (eating === 'Irregular' ? 8 : 0));
+
+    let healthIndex = sleepFactor + mentalFactor;
+    let burnoutScore = Math.min(100, Math.max(0, Math.round(100 - healthIndex + workPenalty + dietPenalty)));
+    
+    updateBurnoutUI(burnoutScore);
 }
 
 function updateBurnoutUI(score) {
@@ -214,7 +226,9 @@ function submitDataToDatabase() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-            sleep: slp, 
+            sleep: slp,
+            quality: parseFloat(document.getElementById('sleep-qual-slider')?.value || 8),
+            energy: energy,
             work: wrk, 
             mood: mood, 
             stress: str, 
@@ -226,6 +240,7 @@ function submitDataToDatabase() {
     .then(data => {
         if(data.success) {
             updateBurnoutUI(data.score); // Update UI with OFFICIAL database calculated score
+            fetchLatestData(); // Refresh history
         } else {
             statusPill.innerHTML = originalHtml;
         }
@@ -243,29 +258,51 @@ function fetchLatestData() {
     fetch(`${getAPIURL()}/api/records`)
         .then(res => res.json())
         .then(data => {
-            if (data && data.record) {
-                // Initialize the sliders to reflect the database!
-                const sleepDur = document.getElementById('sleep-dur-slider');
-                const sleepQual = document.getElementById('sleep-qual-slider');
-                const energy = document.getElementById('energy-slider');
-                const mood = document.getElementById('mood-slider');
-                const clarity = document.getElementById('clarity-slider');
-                const work = document.getElementById('work-slider');
-                const eating = document.querySelector('.custom-select');
-
-                if (sleepDur && data.record.sleep !== undefined) sleepDur.value = data.record.sleep;
-                if (mood && data.record.mood !== undefined) mood.value = data.record.mood;
-                if (clarity && data.record.clarity !== undefined) clarity.value = data.record.clarity;
-                if (work && data.record.work !== undefined) work.value = data.record.work;
-                if (eating && data.record.eating !== undefined) eating.value = data.record.eating;
+            if (data && data.records && data.records.length > 0) {
+                const latest = data.records[0];
                 
-                // Trigger input events to update labels
-                [sleepDur, sleepQual, energy, mood, clarity, work].forEach(s => {
-                    if (s) s.dispatchEvent(new Event('input'));
-                });
+                // Initialize the sliders (only on first load or if not recently touched)
+                // For now, let's just update the history and the main UI if it's the first time
+                const isInitial = !document.body.classList.contains('initialized');
+                if (isInitial) {
+                    const sleepDur = document.getElementById('sleep-dur-slider');
+                    const sleepQual = document.getElementById('sleep-qual-slider');
+                    const energy = document.getElementById('energy-slider');
+                    const mood = document.getElementById('mood-slider');
+                    const clarity = document.getElementById('clarity-slider');
+                    const work = document.getElementById('work-slider');
+                    const eating = document.querySelector('.custom-select');
 
-                updateBurnoutUI(data.record.score);
+                    if (sleepDur && latest.sleep !== undefined) sleepDur.value = latest.sleep;
+                    if (sleepQual && latest.quality !== undefined) sleepQual.value = latest.quality;
+                    if (energy && latest.energy !== undefined) energy.value = latest.energy;
+                    if (mood && latest.mood !== undefined) mood.value = latest.mood;
+                    if (clarity && latest.clarity !== undefined) clarity.value = latest.clarity;
+                    if (work && latest.work !== undefined) work.value = latest.work;
+                    if (eating && latest.eating !== undefined) eating.value = latest.eating;
+                    
+                    document.body.classList.add('initialized');
+                    
+                    // Trigger input events to update labels
+                    [sleepDur, sleepQual, energy, mood, clarity, work].forEach(s => {
+                        if (s) s.dispatchEvent(new Event('input'));
+                    });
+                    
+                    updateBurnoutUI(latest.score);
+                }
+
+                // Update History List
+                const historyContainer = document.getElementById('recent-logs-container');
+                if (historyContainer) {
+                    historyContainer.innerHTML = data.records.map(r => `
+                        <div class="history-item">
+                            <div class="history-date">${new Date(r.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                            <div class="history-score ${r.riskLevel}">${r.score}%</div>
+                            <div class="history-label">${r.riskLevel.toUpperCase()}</div>
+                        </div>
+                    `).join('');
+                }
             }
         })
-        .catch(err => console.error("Could not fetch old records from DB:", err));
+        .catch(err => console.error("Could not fetch records from DB:", err));
 }

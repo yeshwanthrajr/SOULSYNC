@@ -22,6 +22,8 @@ mongoose.connect(MONGODB_URI)
 
 const RecordSchema = new mongoose.Schema({
   sleep: Number,
+  quality: Number,
+  energy: Number,
   work: Number,
   stress: Number,
   mood: Number,
@@ -36,46 +38,56 @@ const Record = mongoose.model('Record', RecordSchema);
 
 // Core Burnout API logic
 app.post('/api/burnout', async (req, res) => {
-    const { sleep, work, mood, stress, clarity, eating } = req.body;
+    const { sleep, quality, energy, work, mood, stress, clarity, eating } = req.body;
     
-    const sleepHours = parseFloat(sleep) || 7;
-    const workHours = parseFloat(work) || 8;
-    const moodScore = parseFloat(mood) || 8;
-    const clarityScore = parseFloat(clarity) || 7;
-    const stressScore = parseFloat(stress) || (10 - moodScore);
+    // Normalize and provide defaults
+    const s = parseFloat(sleep) || 7;
+    const q = parseFloat(quality) || 8;
+    const e = parseFloat(energy) || 8;
+    const m = parseFloat(mood) || 8;
+    const c = parseFloat(clarity) || 7;
+    const w = parseFloat(work) || 8;
+    const str = parseFloat(stress) || (10 - e);
 
-    let score = 0;
-
-    // Advanced scoring algorithm
-    let sleepPenalty = Math.max(0, (8 - sleepHours) * 12);
-    let workPenalty = Math.max(0, (workHours - 8) * 8);
-    let mentalPenalty = (10 - moodScore) * 5 + (10 - clarityScore) * 5;
+    // Advanced scoring algorithm (0-100, where 100 is high burnout/risk)
+    // Positive factors (reduce score)
+    let sleepFactor = (s / 12) * 20 + (q / 10) * 15;
+    let mentalFactor = (m / 10) * 15 + (c / 10) * 15 + (e / 10) * 15;
+    
+    // Negative factors (increase score)
+    let workPenalty = Math.max(0, (w - 8) * 10);
     let dietPenalty = (eating === 'Skipping Meals' ? 15 : (eating === 'Irregular' ? 8 : 0));
 
-    score = Math.min(100, Math.max(0, sleepPenalty + workPenalty + mentalPenalty + dietPenalty));
-    score = Math.round(score);
+    // Base score calculation
+    let healthIndex = sleepFactor + mentalFactor; // Max healthIndex is 80
+    let burnoutScore = 100 - healthIndex + workPenalty + dietPenalty;
+
+    // Constrain score
+    let score = Math.min(100, Math.max(0, Math.round(burnoutScore)));
 
     let riskLevel = "low";
     let resultMsg = "";
 
-    if (score > 75) {
-        resultMsg = "High Burnout Risk! Your metrics suggest critical fatigue.";
+    if (score > 70) {
+        resultMsg = "High Burnout Risk! Critical fatigue detected.";
         riskLevel = "high";
     } else if (score > 40) {
-        resultMsg = "Medium Risk. Focus might drift. Balance is key.";
+        resultMsg = "Medium Risk. Balance is shifting. Caution recommended.";
         riskLevel = "medium";
     } else {
-        resultMsg = "Low Risk. Your balance is great!";
+        resultMsg = "Low Risk. Your cognitive state is optimized.";
         riskLevel = "low";
     }
 
     try {
         const newRecord = new Record({ 
-            sleep: sleepHours, 
-            work: workHours, 
-            stress: stressScore, 
-            mood: moodScore, 
-            clarity: clarityScore,
+            sleep: s, 
+            quality: q, 
+            energy: e,
+            work: w, 
+            stress: str, 
+            mood: m, 
+            clarity: c,
             eating,
             score, 
             riskLevel 
@@ -88,15 +100,11 @@ app.post('/api/burnout', async (req, res) => {
     }
 });
 
-// API endpoint to retrieve latest dashboard metrics
+// API endpoint to retrieve recent dashboard metrics
 app.get('/api/records', async (req, res) => {
     try {
-        const records = await Record.find().sort({date: -1}).limit(1);
-        if (records.length > 0) {
-            res.json({ success: true, record: records[0] });
-        } else {
-            res.json({ success: true, record: null });
-        }
+        const records = await Record.find().sort({date: -1}).limit(10);
+        res.json({ success: true, records });
     } catch(err) {
         res.status(500).json({ success: false, error: "Database error" });
     }

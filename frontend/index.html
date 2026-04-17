@@ -62,15 +62,16 @@
             <h2 class="panel-title text-green"><i class="ph-bold ph-chart-line-up"></i> Daily Input</h2>
             
             <div class="accordion-card">
-                <div class="physical-health-btn">
-                    <span>PHYSICAL HEALTH</span>
+                <div class="accordion-header">
+                    <span><i class="ph-fill ph-heart"></i> PHYSICAL HEALTH</span>
+                    <i class="ph ph-caret-down" style="transform: rotate(180deg);"></i>
                 </div>
                 <div class="accordion-body">
                     <p class="section-tag">METRIC CONFIGURATION</p>
                     
                     <div class="slider-group">
                         <label>SLEEP (7H)</label>
-                        <input type="range" min="0" max="12" value="7" class="neon-slider" id="sleep-dur-slider">
+                        <input type="range" min="0" max="12" value="7" step="0.5" class="neon-slider" id="sleep-dur-slider">
                     </div>
                     
                     <div class="slider-group">
@@ -86,9 +87,9 @@
                     <div class="dropdown-group">
                         <label>EATING HABITS</label>
                         <select class="custom-select">
-                            <option>Regular</option>
-                            <option>Irregular</option>
-                            <option>Skipping Meals</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Irregular">Irregular</option>
+                            <option value="Skipping Meals">Skipping Meals</option>
                         </select>
                     </div>
                 </div>
@@ -177,6 +178,14 @@
             <button class="ai-button-new">
                 <span>AI ASSISTANT</span>
             </button>
+
+            <!-- RECENT HISTORY SECTION -->
+            <div class="history-panel mt-gap">
+                <h3 class="section-subtitle">RECENT LOGS</h3>
+                <div id="recent-logs-container" class="history-list">
+                    <div class="history-item empty">No logs yet</div>
+                </div>
+            </div>
         </section>
         
     </main>

@@ -32,10 +32,111 @@
 body {
     background-color: var(--bg-page);
     color: var(--text-main);
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
     overflow-x: hidden;
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px;
+    background: var(--bg-panel);
+    border-right: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+.logo-circle {
+    width: 36px;
+    height: 36px;
+    background: rgba(46, 209, 95, 0.2);
+    color: var(--brand-green);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
+.logo-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+.mobile-toggle { display: none; }
+
+.side-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: var(--text-muted);
+    padding: 12px 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+.nav-item i { font-size: 1.3rem; }
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+}
+.nav-item.active {
+    background: rgba(46, 209, 95, 0.1);
+    color: var(--brand-green);
+    border: 1px solid rgba(46, 209, 95, 0.2);
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 20px;
+}
+.nav-logout-btn {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 14px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+.nav-logout-btn:hover {
+    background: rgba(229, 72, 77, 0.1);
+    color: #E5484D;
+    border-color: rgba(229, 72, 77, 0.3);
+}
+
+/* MAIN CONTENT */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* TOP NAVIGATION */
@@ -45,6 +146,7 @@ body {
     align-items: center;
     padding: 24px 48px;
 }
+.page-title h2 { font-size: 1.5rem; font-weight: 700; }
 
 .brand {
     display: flex;

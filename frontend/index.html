@@ -10,24 +10,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-circle"><i class="ph-fill ph-brain"></i></div>
+                <span class="logo-text">MindSentinel</span>
+                <i class="ph ph-list mobile-toggle"></i>
+            </div>
+            
+            <nav class="side-nav">
+                <a href="#" class="nav-item active"><i class="ph-fill ph-house"></i> Dashboard</a>
+                <a href="#" class="nav-item"><i class="ph ph-chart-pie"></i> Analytics</a>
+                <a href="#" class="nav-item"><i class="ph ph-robot"></i> AI Insights</a>
+                <a href="#" class="nav-item"><i class="ph ph-leaf"></i> Wellness</a>
+                <a href="#" class="nav-item"><i class="ph ph-timer"></i> Focus Mode</a>
+                <a href="#" class="nav-item"><i class="ph ph-gear"></i> Profile / Settings</a>
+            </nav>
 
-    <!-- TOP NAVIGATION -->
-    <header class="top-nav">
-        <div class="brand">
-            <div class="logo-icon"><i class="ph-fill ph-brain"></i></div>
-            <div class="brand-text">
-                <h1>MindSentinel</h1>
-                <p><i class="ph-bold ph-trend-up"></i> Protect Your Mind. Power Your Focus</p>
+            <div class="sidebar-footer">
+                <button class="nav-logout-btn"><i class="ph ph-sign-out"></i> Logout</button>
             </div>
-        </div>
-        <div class="user-block">
-            <div class="user-info">
-                <span>Welcome back,</span>
-                <strong>kiruba</strong>
-            </div>
-            <button class="logout-btn"><i class="ph ph-sign-out"></i></button>
-        </div>
-    </header>
+        </aside>
+
+        <div class="main-content">
+            <!-- TOP NAVIGATION -->
+            <header class="top-nav">
+                <div class="page-title">
+                    <h2>Dashboard</h2>
+                </div>
+                <div class="user-block">
+                    <div class="user-info">
+                        <span>Welcome back,</span>
+                        <strong>kiruba</strong>
+                    </div>
+                    <div class="user-avatar">
+                        <i class="ph ph-user-circle"></i>
+                    </div>
+                </div>
+            </header>
 
     <!-- MAIN GRID CONTAINER -->
     <main class="dashboard-grid">
@@ -175,6 +196,8 @@
         </section>
         
     </main>
+    </div> <!-- end main-content -->
+</div> <!-- end app-container -->
 
     <script src="script.js"></script>
 </body>

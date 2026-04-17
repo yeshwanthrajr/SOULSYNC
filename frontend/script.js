@@ -57,11 +57,37 @@ document.addEventListener('DOMContentLoaded', () => {
         eatingSelect.addEventListener('change', () => submitDataToDatabase());
     }
 
+    // Sidebar Navigation logic
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            navItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            
+            // Update page title dynamically
+            const pageTitle = document.querySelector('.page-title h2');
+            if (pageTitle) pageTitle.innerText = item.innerText.trim();
+        });
+    });
+
+    // Logout logic
+    const logoutBtn = document.querySelector('.nav-logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = 'index.html'; // Redirect to home/login
+            }
+        });
+    }
+
     // AI Assistant Button Click
     const aiBtn = document.querySelector('.ai-button');
     if (aiBtn) {
         aiBtn.addEventListener('click', () => {
-            alert("Cognitive AI Assistant: Analyzing your telemetry data... You seem to be doing well! Try to maintain a consistent sleep schedule this week.");
+            const currentScore = document.querySelector('.percentage')?.innerText || "0%";
+            const msg = `Cognitive AI: "Your current burnout risk is ${currentScore}. I recommend ${currentScore.slice(0,-1) > 40 ? 'scheduling a break immediately' : 'continuing your deep-work flow'}. How else can I help?"`;
+            alert(msg);
         });
     }
 

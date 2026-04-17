@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', () => {
     // Handle Accordion Toggling
     const headers = document.querySelectorAll('.accordion-header');
     headers.forEach(header => {
@@ -63,14 +64,17 @@
             alert("Cognitive AI Assistant: Analyzing your telemetry data... You seem to be doing well! Try to maintain a consistent sleep schedule this week.");
         });
     }
+
+    // INITIAL LOAD
+    fetchLatestData();
 });
 
 function calculateDemoBurnout() {
-    const sleepDur = parseFloat(document.querySelectorAll('.neon-slider')[0].value);
-    const sleepQual = parseFloat(document.querySelectorAll('.neon-slider')[1].value);
-    const energy = parseFloat(document.querySelectorAll('.neon-slider')[2].value);
-    const mood = parseFloat(document.querySelector('#mood-slider')?.value || 8);
-    const work = parseFloat(document.querySelector('#work-slider')?.value || 8);
+    const sleepDur = parseFloat(document.getElementById('sleep-dur-slider')?.value || 7);
+    const sleepQual = parseFloat(document.getElementById('sleep-qual-slider')?.value || 8);
+    const energy = parseFloat(document.getElementById('energy-slider')?.value || 8);
+    const mood = parseFloat(document.getElementById('mood-slider')?.value || 8);
+    const work = parseFloat(document.getElementById('work-slider')?.value || 8);
     
     // Improved demo formula
     let burnoutScore = 100 - ((sleepDur/12)*25 + (sleepQual/10)*20 + (energy/10)*20 + (mood/10)*20 + (1 - (work/16))*15);
@@ -165,15 +169,18 @@ const getAPIURL = () => {
 };
 
 function submitDataToDatabase() {
-    const slp = parseFloat(document.querySelectorAll('.neon-slider')[0].value) || 7;
-    const mood = parseFloat(document.querySelector('#mood-slider')?.value || 8);
-    const clarity = parseFloat(document.querySelector('#clarity-slider')?.value || 7);
-    const wrk = parseFloat(document.querySelector('#work-slider')?.value || 8);
+    const slp = parseFloat(document.getElementById('sleep-dur-slider')?.value) || 7;
+    const mood = parseFloat(document.getElementById('mood-slider')?.value || 8);
+    const clarity = parseFloat(document.getElementById('clarity-slider')?.value || 7);
+    const wrk = parseFloat(document.getElementById('work-slider')?.value || 8);
     const eating = document.querySelector('.custom-select')?.value || 'Regular';
-    const str = 10 - (parseFloat(document.querySelectorAll('.neon-slider')[2].value) || 8); 
+    const energy = parseFloat(document.getElementById('energy-slider')?.value || 8);
+    const str = 10 - energy; 
 
     // Show syncing status
     const statusPill = document.querySelector('.status-pill');
+    if (!statusPill) return;
+    
     let originalHtml = statusPill.innerHTML;
     statusPill.innerHTML = '<i class="ph ph-spinner ph-spin"></i> SYNCING DB...';
 
@@ -200,7 +207,9 @@ function submitDataToDatabase() {
     .catch(err => {
         console.error("Database connection error:", err);
         statusPill.innerHTML = '<i class="ph ph-warning"></i> DB ERROR';
-        setTimeout(() => statusPill.innerHTML = originalHtml, 2000);
+        setTimeout(() => {
+            if (statusPill) statusPill.innerHTML = originalHtml;
+        }, 2000);
     });
 }
 
@@ -210,11 +219,25 @@ function fetchLatestData() {
         .then(data => {
             if (data && data.record) {
                 // Initialize the sliders to reflect the database!
-                const sliders = document.querySelectorAll('.neon-slider');
-                if (sliders.length > 0 && data.record.sleep) {
-                    sliders[0].value = data.record.sleep;
-                    sliders[0].dispatchEvent(new Event('input')); // To trigger label update
-                }
+                const sleepDur = document.getElementById('sleep-dur-slider');
+                const sleepQual = document.getElementById('sleep-qual-slider');
+                const energy = document.getElementById('energy-slider');
+                const mood = document.getElementById('mood-slider');
+                const clarity = document.getElementById('clarity-slider');
+                const work = document.getElementById('work-slider');
+                const eating = document.querySelector('.custom-select');
+
+                if (sleepDur && data.record.sleep !== undefined) sleepDur.value = data.record.sleep;
+                if (mood && data.record.mood !== undefined) mood.value = data.record.mood;
+                if (clarity && data.record.clarity !== undefined) clarity.value = data.record.clarity;
+                if (work && data.record.work !== undefined) work.value = data.record.work;
+                if (eating && data.record.eating !== undefined) eating.value = data.record.eating;
+                
+                // Trigger input events to update labels
+                [sleepDur, sleepQual, energy, mood, clarity, work].forEach(s => {
+                    if (s) s.dispatchEvent(new Event('input'));
+                });
+
                 updateBurnoutUI(data.record.score);
             }
         })

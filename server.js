@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 // Serve the beautiful glassmorphism frontend statically
-app.use(express.static(path.join(__dirname, 'frontend')));
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 // MongoDB Database Connection
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/mindsentinel";

@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const avatarCircle = document.querySelector('.avatar-circle');
     if (avatarCircle) avatarCircle.innerText = user.name.charAt(0).toUpperCase();
 
-    // Handle Accordion Toggling
-    const headers = document.querySelectorAll('.accordion-header');
+    // Handle Accordion Toggling (Support both standard headers and the physical health gradient button)
+    const headers = document.querySelectorAll('.accordion-header, .physical-health-btn');
     headers.forEach(header => {
         header.addEventListener('click', () => {
             const body = header.nextElementSibling;
-            const icon = header.querySelector('.ph-caret-down');
+            const icon = header.querySelector('.ph-caret-down, .ph-caret-up');
             
             // Toggle visibility using class or computed style
             const isVisible = body.classList.contains('active') || window.getComputedStyle(body).display !== 'none';
@@ -25,11 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isVisible) {
                 body.style.display = 'none';
                 body.classList.remove('active');
-                if (icon) icon.style.transform = 'rotate(0deg)';
+                if (icon) icon.className = icon.className.includes('down') ? 'ph ph-caret-down' : 'ph ph-caret-up';
+                if (icon) icon.style.transform = 'rotate(180deg)';
             } else {
                 body.style.display = 'block';
                 body.classList.add('active');
-                if (icon) icon.style.transform = 'rotate(180deg)';
+                if (icon) icon.className = icon.className.includes('down') ? 'ph ph-caret-down' : 'ph ph-caret-up';
+                if (icon) icon.style.transform = 'rotate(0deg)';
             }
         });
     });
@@ -186,31 +188,25 @@ function updateBurnoutUI(score) {
     gaugeFill.style.strokeDashoffset = offset;
     
     if (score > 70) {
-        statusPill.className = 'status-pill';
-        statusPill.style.border = '1px solid rgba(229, 72, 77, 0.4)';
-        statusPill.style.background = 'rgba(229, 72, 77, 0.1)';
-        statusPill.style.color = '#E5484D';
-        statusPill.innerHTML = '<i class="ph-bold ph-warning-circle"></i> CRITICAL BURNOUT';
-        gaugeFill.style.stroke = '#E5484D';
-        gaugeFill.style.filter = 'drop-shadow(0px 0px 8px rgba(229, 72, 77, 0.6))';
+        statusPill.style.background = 'rgba(247, 37, 133, 0.1)';
+        statusPill.style.border = '1px solid rgba(247, 37, 133, 0.3)';
+        statusPill.style.color = '#F72585';
+        statusPill.innerHTML = '<i class="ph-fill ph-warning-circle"></i> HIGH RISK';
+        gaugeFill.style.stroke = '#F72585';
         updateAISuggestions('high');
     } else if (score > 40) {
-        statusPill.className = 'status-pill';
-        statusPill.style.border = '1px solid rgba(245, 166, 35, 0.4)';
-        statusPill.style.background = 'rgba(245, 166, 35, 0.1)';
-        statusPill.style.color = '#F5A623';
-        statusPill.innerHTML = '<i class="ph-bold ph-warning"></i> MEDIUM BURNOUT';
-        gaugeFill.style.stroke = '#F5A623';
-        gaugeFill.style.filter = 'drop-shadow(0px 0px 8px rgba(245, 166, 35, 0.6))';
+        statusPill.style.background = 'rgba(255, 159, 28, 0.1)';
+        statusPill.style.border = '1px solid rgba(255, 159, 28, 0.3)';
+        statusPill.style.color = '#FF9F1C';
+        statusPill.innerHTML = '<i class="ph-fill ph-warning"></i> MODERATE RISK';
+        gaugeFill.style.stroke = '#FF9F1C';
         updateAISuggestions('medium');
     } else {
-        statusPill.className = 'status-pill safe';
-        statusPill.style.border = '1px solid rgba(46, 209, 95, 0.4)';
-        statusPill.style.background = 'rgba(46, 209, 95, 0.1)';
-        statusPill.style.color = 'var(--brand-green)';
-        statusPill.innerHTML = '<i class="ph-bold ph-check-circle"></i> LOW BURNOUT';
-        gaugeFill.style.stroke = 'var(--brand-green-light)';
-        gaugeFill.style.filter = 'drop-shadow(0px 0px 8px rgba(180, 244, 88, 0.6))';
+        statusPill.style.background = 'rgba(0, 230, 118, 0.1)';
+        statusPill.style.border = '1px solid rgba(0, 230, 118, 0.3)';
+        statusPill.style.color = '#00E676';
+        statusPill.innerHTML = '<i class="ph-fill ph-check-circle"></i> LOW BURNOUT';
+        gaugeFill.style.stroke = '#00E676';
         updateAISuggestions('low');
     }
 }

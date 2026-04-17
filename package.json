@@ -1,0 +1,16 @@
+{
+  "name": "mindsentinel-enterprise",
+  "version": "1.0.0",
+  "description": "MindSentinel Enterprise - Proactive MHaaS Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^8.3.2",
+    "dotenv": "^16.4.5",
+    "socket.io": "^4.7.2"
+  }
+}

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindSentinel | Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        .auth-container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-page);
+        }
+        .auth-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .auth-header { text-align: center; margin-bottom: 30px; }
+        .auth-logo { font-size: 2.5rem; color: var(--brand-green); margin-bottom: 10px; }
+        .auth-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 5px; }
+        .auth-subtitle { color: var(--text-muted); font-size: 0.9rem; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+        .form-input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            padding: 14px;
+            border-radius: 12px;
+            color: var(--text-main);
+            outline: none;
+            transition: 0.3s;
+        }
+        .form-input:focus { border-color: var(--brand-green); box-shadow: 0 0 10px rgba(0, 230, 118, 0.1); }
+        
+        .auth-btn {
+            width: 100%;
+            background: var(--brand-green);
+            color: #000;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 230, 118, 0.3); }
+        
+        .auth-switch { text-align: center; margin-top: 25px; font-size: 0.9rem; color: var(--text-muted); }
+        .auth-link { color: var(--brand-green); text-decoration: none; font-weight: 600; cursor: pointer; }
+        
+        .error-msg { background: rgba(229, 72, 77, 0.1); color: #E5484D; padding: 12px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 20px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card" id="login-card">
+            <div class="auth-header">
+                <div class="auth-logo"><i class="ph-fill ph-brain"></i></div>
+                <h1 class="auth-title">Welcome Back</h1>
+                <p class="auth-subtitle">Login to your mental health portal</p>
+            </div>
+            
+            <div class="error-msg" id="login-error">Invalid credentials</div>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label>EMAIL ADDRESS</label>
+                    <input type="email" class="form-input" id="login-email" required placeholder="name@company.com">
+                </div>
+                <div class="form-group">
+                    <label>PASSWORD</label>
+                    <input type="password" class="form-input" id="login-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="auth-btn">Login to Dashboard</button>
+            </form>
+            
+            <div class="auth-switch">
+                Don't have an account? <span class="auth-link" onclick="toggleAuth()">Create one</span>
+            </div>
+        </div>
+
+        <div class="auth-card" id="register-card" style="display: none;">
+            <div class="auth-header">
+                <div class="auth-logo"><i class="ph-fill ph-brain"></i></div>
+                <h1 class="auth-title">Join MindSentinel</h1>
+                <p class="auth-subtitle">Start protecting your focus today</p>
+            </div>
+            
+            <div class="error-msg" id="register-error">Error creating account</div>
+            
+            <form id="register-form">
+                <div class="form-group">
+                    <label>FULL NAME</label>
+                    <input type="text" class="form-input" id="reg-name" required placeholder="Krishnaveni">
+                </div>
+                <div class="form-group">
+                    <label>EMAIL ADDRESS</label>
+                    <input type="email" class="form-input" id="reg-email" required placeholder="krish@example.com">
+                </div>
+                <div class="form-group">
+                    <label>PASSWORD</label>
+                    <input type="password" class="form-input" id="reg-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="auth-btn">Create Account</button>
+            </form>
+            
+            <div class="auth-switch">
+                Already have an account? <span class="auth-link" onclick="toggleAuth()">Log in</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleAuth() {
+            const login = document.getElementById('login-card');
+            const register = document.getElementById('register-card');
+            if (login.style.display === 'none') {
+                login.style.display = 'block';
+                register.style.display = 'none';
+            } else {
+                login.style.display = 'none';
+                register.style.display = 'block';
+            }
+        }
+
+        const getAPIURL = () => {
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                return 'http://localhost:3000';
+            }
+            return window.location.origin;
+        };
+
+        // LOGIN
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const errorDiv = document.getElementById('login-error');
+
+            try {
+                const res = await fetch(`${getAPIURL()}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    localStorage.setItem('token', data.token);
+                    window.location.href = 'index.html';
+                } else {
+                    errorDiv.innerText = data.error;
+                    errorDiv.style.display = 'block';
+                }
+            } catch (err) {
+                errorDiv.innerText = "Connection Error";
+                errorDiv.style.display = 'block';
+            }
+        });
+
+        // REGISTER
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const errorDiv = document.getElementById('register-error');
+
+            try {
+                const res = await fetch(`${getAPIURL()}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert("Account created! Please login.");
+                    toggleAuth();
+                } else {
+                    errorDiv.innerText = data.error;
+                    errorDiv.style.display = 'block';
+                }
+            } catch (err) {
+                errorDiv.innerText = "Connection Error";
+                errorDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

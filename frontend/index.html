@@ -189,6 +189,29 @@
         </section>
         
     </main>
+
+    <!-- SETTINGS VIEW (HIDDEN BY DEFAULT) -->
+    <section id="settings-view" class="col-panel" style="display: none; max-width: 600px; margin: 40px auto; padding: 40px;">
+        <h2 class="panel-title"><i class="ph ph-gear"></i> Account Settings</h2>
+        
+        <div class="accordion-card">
+            <div class="accordion-header">
+                <span><i class="ph ph-lock"></i> CHANGE PASSWORD</span>
+            </div>
+            <div class="accordion-body">
+                <p class="section-tag" style="margin-bottom: 20px;">SECURITY MANAGEMENT</p>
+                <div class="slider-group">
+                    <label>OLD PASSWORD</label>
+                    <input type="password" class="form-input" id="old-pass" style="width: 100%;" placeholder="••••••••">
+                </div>
+                <div class="slider-group" style="margin-top: 20px;">
+                    <label>NEW PASSWORD</label>
+                    <input type="password" class="form-input" id="new-pass" style="width: 100%;" placeholder="••••••••">
+                </div>
+                <button class="ai-button-new" id="change-pass-btn" style="margin-top: 30px; width: 100%;">UPDATE PASSWORD</button>
+            </div>
+        </div>
+    </section>
     </div> <!-- end main-content -->
 </div> <!-- end app-container -->
 

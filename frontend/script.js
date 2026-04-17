@@ -1,4 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // AUTH CHECK
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // Update UI with User Name
+    const welcomeName = document.querySelector('.user-info strong');
+    if (welcomeName) welcomeName.innerText = user.name;
+    const avatarCircle = document.querySelector('.avatar-circle');
+    if (avatarCircle) avatarCircle.innerText = user.name.charAt(0).toUpperCase();
+
     // Handle Accordion Toggling
     const headers = document.querySelectorAll('.accordion-header');
     headers.forEach(header => {
@@ -68,9 +81,21 @@ document.addEventListener('DOMContentLoaded', () => {
             navItems.forEach(i => i.classList.remove('active'));
             item.classList.add('active');
             
+            const label = item.innerText.trim();
+            const dashboardGrid = document.querySelector('.dashboard-grid');
+            const settingsView = document.getElementById('settings-view');
+
+            if (label === 'Settings' || label === 'Profile / Settings') {
+                dashboardGrid.style.display = 'none';
+                settingsView.style.display = 'block';
+            } else {
+                dashboardGrid.style.display = 'grid';
+                if (settingsView) settingsView.style.display = 'none';
+            }
+
             // Update page title dynamically
             const pageTitle = document.querySelector('.page-title h2');
-            if (pageTitle) pageTitle.innerText = item.innerText.trim();
+            if (pageTitle) pageTitle.innerText = label;
         });
     });
 
@@ -79,7 +104,35 @@ document.addEventListener('DOMContentLoaded', () => {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
             if (confirm("Are you sure you want to logout?")) {
-                window.location.href = 'index.html'; // Redirect to home/login
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+                window.location.href = 'login.html'; 
+            }
+        });
+    }
+
+    // Change Password logic (for Settings tab)
+    const changePassBtn = document.getElementById('change-pass-btn');
+    if (changePassBtn) {
+        changePassBtn.addEventListener('click', async () => {
+            const oldPass = document.getElementById('old-pass').value;
+            const newPass = document.getElementById('new-pass').value;
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            if (!oldPass || !newPass) return alert("Fill all fields");
+
+            const res = await fetch(`${getAPIURL()}/api/auth/change-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: user.email, oldPassword: oldPass, newPassword: newPass })
+            });
+            const data = await res.json();
+            if (data.success) {
+                alert("Password Updated!");
+                document.getElementById('old-pass').value = '';
+                document.getElementById('new-pass').value = '';
+            } else {
+                alert(data.error);
             }
         });
     }
@@ -222,10 +275,13 @@ function submitDataToDatabase() {
     let originalHtml = statusPill.innerHTML;
     statusPill.innerHTML = '<i class="ph ph-spinner ph-spin"></i> SYNCING DB...';
 
+    const user = JSON.parse(localStorage.getItem('user'));
+    
     fetch(`${getAPIURL()}/api/burnout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
+            userId: user?._id || null,
             sleep: slp,
             quality: parseFloat(document.getElementById('sleep-qual-slider')?.value || 8),
             energy: energy,
@@ -255,7 +311,10 @@ function submitDataToDatabase() {
 }
 
 function fetchLatestData() {
-    fetch(`${getAPIURL()}/api/records`)
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user?._id || '';
+
+    fetch(`${getAPIURL()}/api/records?userId=${userId}`)
         .then(res => res.json())
         .then(data => {
             if (data && data.records && data.records.length > 0) {

@@ -265,6 +265,78 @@ body {
 .bg-pink { background: var(--accent-pink); color: #FFF; }
 .bg-purple { background: var(--accent-purple); color: #FFF; }
 
+.text-green { color: var(--brand-green) !important; }
+
+/* NEW AVATAR */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background: #004D40;
+    color: var(--brand-green);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+}
+
+/* PHYSICAL HEALTH BUTTON */
+.physical-health-btn {
+    background: #00BCD4;
+    color: #000;
+    padding: 14px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    border-radius: 12px;
+    margin: 10px;
+}
+
+/* SECTION TAG */
+.section-tag {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+/* STATUS DOT */
+.dot {
+    width: 8px;
+    height: 8px;
+    background: var(--brand-green);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--brand-green);
+}
+
+.routine-section .center { text-align: center; margin-bottom: 20px; }
+
+/* AI BUTTON NEW */
+.ai-button-new {
+    margin-top: auto;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.ai-button-new:hover { background: rgba(255, 255, 255, 0.05); }
+
+/* REC ICON SMALL */
+.rec-icon-small {
+    width: 24px;
+    height: 24px;
+    background: rgba(46, 209, 95, 0.2);
+    border-radius: 6px;
+}
+
 .accordion-body {
     padding: 24px 20px;
 }

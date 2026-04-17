@@ -20,12 +20,16 @@
             </div>
             
             <nav class="side-nav">
-                <a href="#" class="nav-item active"><i class="ph-fill ph-house"></i> Dashboard</a>
-                <a href="#" class="nav-item"><i class="ph ph-chart-pie"></i> Analytics</a>
-                <a href="#" class="nav-item"><i class="ph ph-robot"></i> AI Insights</a>
-                <a href="#" class="nav-item"><i class="ph ph-leaf"></i> Wellness</a>
-                <a href="#" class="nav-item"><i class="ph ph-timer"></i> Focus Mode</a>
-                <a href="#" class="nav-item"><i class="ph ph-gear"></i> Profile / Settings</a>
+                <a href="#" class="nav-item active"><i class="ph-fill ph-microsoft-excel-logo"></i> Dashboard</a>
+                <a href="#" class="nav-item"><i class="ph ph-plus-circle"></i> Daily Input</a>
+                <a href="#" class="nav-item"><i class="ph ph-fire"></i> Burnout Analysis</a>
+                <a href="#" class="nav-item"><i class="ph ph-sparkle"></i> Prediction</a>
+                <a href="#" class="nav-item"><i class="ph ph-game-controller"></i> Simulator</a>
+                <a href="#" class="nav-item"><i class="ph ph-target"></i> Action Plan</a>
+                <a href="#" class="nav-item"><i class="ph ph-chart-bar"></i> Progress / Reports</a>
+                <a href="#" class="nav-item"><i class="ph ph-brain"></i> Insights</a>
+                <a href="#" class="nav-item"><i class="ph ph-users"></i> Community</a>
+                <a href="#" class="nav-item"><i class="ph ph-gear"></i> Settings</a>
             </nav>
 
             <div class="sidebar-footer">
@@ -42,10 +46,10 @@
                 <div class="user-block">
                     <div class="user-info">
                         <span>Welcome back,</span>
-                        <strong>kiruba</strong>
+                        <strong>Krishnaveni</strong>
                     </div>
                     <div class="user-avatar">
-                        <i class="ph ph-user-circle"></i>
+                        <span class="avatar-circle">K</span>
                     </div>
                 </div>
             </header>
@@ -55,33 +59,32 @@
         
         <!-- COLUMN 1: DAILY INPUT -->
         <section class="col-panel">
-            <h2 class="panel-title"><i class="ph-bold ph-chart-line-up"></i> Daily Input</h2>
+            <h2 class="panel-title text-green"><i class="ph-bold ph-chart-line-up"></i> Daily Input</h2>
             
             <div class="accordion-card">
-                <div class="accordion-header bg-cyan">
-                    <span><i class="ph-fill ph-heart-beat"></i> Physical Health</span>
-                    <i class="ph ph-caret-down"></i>
+                <div class="physical-health-btn">
+                    <span>PHYSICAL HEALTH</span>
                 </div>
                 <div class="accordion-body">
-                    <p class="subtitle fade">Burnout first appears physically before mentally.</p>
+                    <p class="section-tag">METRIC CONFIGURATION</p>
                     
                     <div class="slider-group">
-                        <label><i class="ph-fill ph-moon"></i> Sleep Duration (7 hrs)</label>
+                        <label>SLEEP (7H)</label>
                         <input type="range" min="0" max="12" value="7" class="neon-slider" id="sleep-dur-slider">
                     </div>
                     
                     <div class="slider-group">
-                        <label><i class="ph-fill ph-bed"></i> Sleep Quality (8/10)</label>
+                        <label>QUALITY (8/10)</label>
                         <input type="range" min="0" max="10" value="8" class="neon-slider" id="sleep-qual-slider">
                     </div>
-
+ 
                     <div class="slider-group">
-                        <label><i class="ph-fill ph-lightning"></i> Energy Level (8/10)</label>
+                        <label>ENERGY (8/10)</label>
                         <input type="range" min="0" max="10" value="8" class="neon-slider" id="energy-slider">
                     </div>
-
+ 
                     <div class="dropdown-group">
-                        <label>Eating Habits</label>
+                        <label>EATING HABITS</label>
                         <select class="custom-select">
                             <option>Regular</option>
                             <option>Irregular</option>
@@ -92,35 +95,30 @@
             </div>
 
             <div class="accordion-card">
-                <div class="accordion-header bg-pink">
-                    <span><i class="ph-fill ph-brain"></i> Mental & Emotional</span>
+                <div class="accordion-header">
+                    <span><i class="ph-fill ph-brain"></i> MENTAL & EMOTIONAL</span>
                     <i class="ph ph-caret-down"></i>
                 </div>
                 <div class="accordion-body" style="display: none;">
-                    <p class="subtitle fade">Captures early signs of cognitive strain.</p>
-                    
                     <div class="slider-group">
-                        <label><i class="ph-fill ph-smiley"></i> General Mood (8/10)</label>
+                        <label>GENERAL MOOD (8/10)</label>
                         <input type="range" min="0" max="10" value="8" class="neon-slider" id="mood-slider">
                     </div>
-                    
                     <div class="slider-group">
-                        <label><i class="ph-fill ph-pawn"></i> Mental Clarity (7/10)</label>
+                        <label>MENTAL CLARITY (7/10)</label>
                         <input type="range" min="0" max="10" value="7" class="neon-slider" id="clarity-slider">
                     </div>
                 </div>
             </div>
 
             <div class="accordion-card">
-                <div class="accordion-header bg-purple">
-                    <span><i class="ph-fill ph-briefcase"></i> Workload & Focus</span>
+                <div class="accordion-header">
+                    <span><i class="ph-fill ph-briefcase"></i> WORKLOAD & FOCUS</span>
                     <i class="ph ph-caret-down"></i>
                 </div>
                 <div class="accordion-body" style="display: none;">
-                    <p class="subtitle fade">Tracks intensity of your professional day.</p>
-                    
                     <div class="slider-group">
-                        <label><i class="ph-fill ph-clock"></i> Work Hours (8 hrs)</label>
+                        <label>WORK HOURS (8 hrs)</label>
                         <input type="range" min="0" max="16" value="8" class="neon-slider" id="work-slider">
                     </div>
                 </div>
@@ -129,7 +127,7 @@
 
         <!-- COLUMN 2: BURNOUT ANALYSIS -->
         <section class="col-panel center-panel">
-            <h2 class="panel-title center-title"><i class="ph-bold ph-trend-up"></i> Burnout Analysis</h2>
+            <h2 class="panel-title center-title">Burnout Analysis</h2>
             
             <!-- SVG GAUGE CHART -->
             <div class="gauge-container">
@@ -139,26 +137,26 @@
                 </svg>
                 <div class="gauge-text">
                     <span class="percentage">30%</span>
-                    <span class="label">BURNOUT LEVEL</span>
+                    <span class="label">LOAD INDEX</span>
                 </div>
             </div>
 
             <!-- PILL BADGE -->
             <div class="status-pill safe">
-                <i class="ph-bold ph-check-circle"></i> LOW BURNOUT
+                <span class="dot"></span> LOW RISK STATUS
             </div>
 
             <!-- ROUTINE BENTO -->
             <div class="routine-section">
-                <h3 class="section-subtitle">RECOMMENDED ROUTINE</h3>
+                <h3 class="section-subtitle center">RECOMMENDED RECOVERY ROUTINE</h3>
                 <div class="routine-grid">
                     <div class="routine-card">
-                        <span class="rc-title"><i class="ph-fill ph-moon"></i> Sleep</span>
                         <span class="rc-val" id="rec-sleep">7-8 hours</span>
+                        <span class="rc-title">Sleep</span>
                     </div>
                     <div class="routine-card">
-                        <span class="rc-title" style="color: #CB6CE6;"><i class="ph-fill ph-briefcase"></i> Work</span>
                         <span class="rc-val" id="rec-work">6-8 hours</span>
+                        <span class="rc-title">Work</span>
                     </div>
                 </div>
             </div>
@@ -166,32 +164,18 @@
 
         <!-- COLUMN 3: AI SUGGESTIONS -->
         <section class="col-panel">
-            <h2 class="panel-title"><i class="ph-bold ph-sparkle"></i> AI Suggestions</h2>
+            <h2 class="panel-title">AI Suggestions</h2>
             
-            <h3 class="section-subtitle mt-gap">RECOMMENDATIONS</h3>
+            <h3 class="section-subtitle mt-gap">TOP RECOMMENDATIONS</h3>
             <div class="recommendations-list">
                 <div class="rec-card">
-                    <div class="rec-icon text-green"><i class="ph-bold ph-trend-up"></i></div>
+                    <div class="rec-icon-small"></div>
                     <div class="rec-text">Keep up the excellent routine!</div>
-                </div>
-                <div class="rec-card">
-                    <div class="rec-icon text-blue"><i class="ph-bold ph-heart"></i></div>
-                    <div class="rec-text">Your mind is well-protected</div>
-                </div>
-                <div class="rec-card">
-                    <div class="rec-icon text-yellow"><i class="ph-bold ph-lightning"></i></div>
-                    <div class="rec-text">Stay consistent with habits</div>
-                </div>
-                <div class="rec-card">
-                    <div class="rec-icon text-purple"><i class="ph-bold ph-percent"></i></div>
-                    <div class="rec-text">You're in peak focus mode</div>
                 </div>
             </div>
 
-            <button class="ai-button">
-                <i class="ph-fill ph-robot text-green" style="font-size:1.5rem"></i>
-                <span class="fw-btn">AI Assistant</span>
-                <i class="ph-bold ph-sparkle text-green"></i>
+            <button class="ai-button-new">
+                <span>AI ASSISTANT</span>
             </button>
         </section>
         

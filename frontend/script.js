@@ -33,18 +33,18 @@ document.addEventListener('DOMContentLoaded', () => {
             let val = e.target.value;
             let labelText = labelElement.innerText;
 
-            if(labelText.includes('Sleep Duration')) {
-                labelElement.innerHTML = `<i class="ph-fill ph-moon"></i> Sleep Duration (${val} hrs)`;
-            } else if(labelText.includes('Sleep Quality')) {
-                labelElement.innerHTML = `<i class="ph-fill ph-bed"></i> Sleep Quality (${val}/10)`;
-            } else if(labelText.includes('Energy Level')) {
-                labelElement.innerHTML = `<i class="ph-fill ph-lightning"></i> Energy Level (${val}/10)`;
-            } else if(labelText.includes('General Mood')) {
-                labelElement.innerHTML = `<i class="ph-fill ph-smiley"></i> General Mood (${val}/10)`;
-            } else if(labelText.includes('Mental Clarity')) {
-                labelElement.innerHTML = `<i class="ph-fill ph-pawn"></i> Mental Clarity (${val}/10)`;
-            } else if(labelText.includes('Work Hours')) {
-                labelElement.innerHTML = `<i class="ph-fill ph-clock"></i> Work Hours (${val} hrs)`;
+            if(labelText.includes('SLEEP')) {
+                labelElement.innerHTML = `SLEEP (${val}H)`;
+            } else if(labelText.includes('QUALITY')) {
+                labelElement.innerHTML = `QUALITY (${val}/10)`;
+            } else if(labelText.includes('ENERGY')) {
+                labelElement.innerHTML = `ENERGY (${val}/10)`;
+            } else if(labelText.includes('GENERAL MOOD')) {
+                labelElement.innerHTML = `GENERAL MOOD (${val}/10)`;
+            } else if(labelText.includes('MENTAL CLARITY')) {
+                labelElement.innerHTML = `MENTAL CLARITY (${val}/10)`;
+            } else if(labelText.includes('WORK HOURS')) {
+                labelElement.innerHTML = `WORK HOURS (${val} hrs)`;
             }
             
             calculateDemoBurnout();
@@ -82,11 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // AI Assistant Button Click
-    const aiBtn = document.querySelector('.ai-button');
+    const aiBtn = document.querySelector('.ai-button-new');
     if (aiBtn) {
         aiBtn.addEventListener('click', () => {
             const currentScore = document.querySelector('.percentage')?.innerText || "0%";
-            const msg = `Cognitive AI: "Your current burnout risk is ${currentScore}. I recommend ${currentScore.slice(0,-1) > 40 ? 'scheduling a break immediately' : 'continuing your deep-work flow'}. How else can I help?"`;
+            const msg = `Cognitive AI: "Your Load Index is ${currentScore}. I recommend ${currentScore.slice(0,-1) > 40 ? 'scheduling a break immediately' : 'continuing your deep-work flow'}. How else can I help?"`;
             alert(msg);
         });
     }
